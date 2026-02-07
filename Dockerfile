@@ -2,19 +2,23 @@ FROM eclipse-temurin:17-jdk
 
 WORKDIR /app
 
-# Copy only the Spring Boot project folder
-COPY chatApplication/ .
+# Copy Spring Boot project
+COPY chatApplication/ /app/
 
-# Make mvnw executable
+# Fix permissions
 RUN chmod +x mvnw
 
-# Build the application
+# Build the app
 RUN ./mvnw clean package -DskipTests
+
+# DEBUG: show files (important)
+RUN ls -l target
 
 # Rename jar to fixed name
 RUN cp target/*.jar app.jar
 
 EXPOSE 8080
 
-CMD ["java", "-jar", "app.jar"]
+# IMPORTANT: use exec form
+ENTRYPOINT ["java","-jar","/app/app.jar"]
 

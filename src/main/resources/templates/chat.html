@@ -38,7 +38,7 @@
 
     function connect(){
         // ✅ SockJS will now be defined
-        var socket = new SockJS('/chat');
+        var socket = new SockJS(window.location.origin + '/chat');
         stompClient = Stomp.over(socket);
 
         stompClient.connect({}, function(){
